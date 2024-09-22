@@ -3,7 +3,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandle
 from datetime import datetime
 
 # Токен бота
-
+TOKEN = SECRET_TOKEN
 
 
 schedules = {
