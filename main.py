@@ -1,9 +1,9 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from datetime import datetime
-
+import os
 # Токен бота
-TOKEN = SECRET_TOKEN
+TOKEN = os.getenv('SECRET_TOKEN')
 
 
 schedules = {
