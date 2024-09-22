@@ -78,6 +78,10 @@ def create_menu():
 # Функція старту
 async def start(update: Update, context):
     await update.message.reply_text('Вітаю! Що вас цікавить?', reply_markup=create_menu())
+# Функція для отримання актуального розкладу
+async def get_schedule(update: Update, context):
+    photo_url = schedules['this_week']['url']
+    await update.message.reply_photo(photo=photo_url, reply_markup=create_menu())
 
 # Функція відправки розкладу
 async def send_schedule(update: Update, context):
@@ -123,7 +127,7 @@ if __name__ == '__main__':
 
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CallbackQueryHandler(send_schedule))
-
+    application.add_handler(CommandHandler('get_schedule', get_schedule))
     application.run_polling()
 
 
