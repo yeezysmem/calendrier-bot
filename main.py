@@ -8,7 +8,7 @@ TOKEN = '7495078009:AAG9m37Qhx5rfC98RLuHLRcBq_IuBc_Ks1Q'
 
 schedules = {
     'this_week': {
-        'url': 'https://imgur.com/JLj1sqe',
+        'url': 'https://imgur.com/a/IxAjtOc',
         'week_number': datetime.now().isocalendar()[1]  # Номер поточного тижня
     },
     'week_1': {
