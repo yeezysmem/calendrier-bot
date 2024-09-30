@@ -78,7 +78,14 @@ def create_menu():
 # Функція старту
 async def start(update: Update, context):
     await update.message.reply_text('Вітаю! Що вас цікавить?', reply_markup=create_menu())
-# Функція для отримання актуального розкладу
+    user = update.message.from_user  # Отримуємо інформацію про користувача
+    username = user.username
+    if username == "zhdanovvvvvv":
+        await update.message.reply_text(f"Привіт, {username}! У тебе є спеціальне повідомлення!")
+    else:
+        await update.message.reply_text('Вітаю! Що вас цікавить?', reply_markup=create_menu())
+
+# Функція для отримання актуального розкладуß
 async def get_schedule(update: Update, context):
     photo_url = schedules['this_week']['url']
     await update.message.reply_photo(photo=photo_url, reply_markup=create_menu())
@@ -121,12 +128,12 @@ async def send_schedule(update: Update, context):
     elif query.data == 'start':
         await start(update=query, context=context)  # Використовуємо query.message
 
-async def set_commands(application):
-    commands = [
-        BotCommand(command="start", description="Запустити бота"),
-        BotCommand(command="get_schedule", description="Отримати поточний розклад"),
-    ]
-    await application.bot.set_my_commands(commands)
+# async def set_commands(application):
+#     commands = [
+#         BotCommand(command="start", description="Запустити бота"),
+#         BotCommand(command="get_schedule", description="Отримати поточний розклад"),
+#     ]
+#     await application.bot.set_my_commands(commands)
 
 # Основний блок програми
 if __name__ == '__main__':
@@ -135,7 +142,7 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CallbackQueryHandler(send_schedule))
     application.add_handler(CommandHandler('get_schedule', get_schedule))
-    application.post_init(set_commands(application))
+    # application.post_init(set_commands(application))
     application.run_polling()
 
 
