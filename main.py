@@ -121,6 +121,13 @@ async def send_schedule(update: Update, context):
     elif query.data == 'start':
         await start(update=query, context=context)  # Використовуємо query.message
 
+async def set_commands(application):
+    commands = [
+        BotCommand(command="start", description="Запустити бота"),
+        BotCommand(command="get_schedule", description="Отримати поточний розклад"),
+    ]
+    await application.bot.set_my_commands(commands)
+
 # Основний блок програми
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
@@ -128,6 +135,7 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CallbackQueryHandler(send_schedule))
     application.add_handler(CommandHandler('get_schedule', get_schedule))
+    application.post_init(set_commands(application))
     application.run_polling()
 
 
