@@ -77,13 +77,13 @@ def create_menu():
 
 # Функція старту
 async def start(update: Update, context):
-    await update.message.reply_text('Вітаю! Що вас цікавить?', reply_markup=create_menu())
+    await update.message.reply_text(f'Вітаю, {username}!', reply_markup=create_menu())
     user = update.message.from_user  # Отримуємо інформацію про користувача
     username = user.username
-    if username == "zhdanovvvvvv":
-        await update.message.reply_text(f"Привіт, {username}! У тебе є спеціальне повідомлення!")
-    else:
-        await update.message.reply_text('Вітаю! Що вас цікавить?', reply_markup=create_menu())
+    # if username == "zhdanovvvvvv":
+    #     await update.message.reply_text(f"Привіт, {username}! У тебе є спеціальне повідомлення!")
+    # else:
+    #     await update.message.reply_text('Вітаю! Що вас цікавить?', reply_markup=create_menu())
 
 # Функція для отримання актуального розкладуß
 async def get_schedule(update: Update, context):
@@ -93,10 +93,24 @@ async def get_schedule(update: Update, context):
 # Функція відправки розкладу
 async def send_schedule(update: Update, context):
     query = update.callback_query
+    user = query.from_user  # Отримуємо інформацію про користувача
+    username = user.username
     await query.answer()
 
     if query.data == 'this_week':
         photo_url = schedules['this_week']['url']
+         if username == "zhdanovvvvvv":
+            await query.message.reply_text(f"Привіт, {username}! Добрий день пане розробник, я молюся на вас:")
+         elif username == "AkameGaNick":
+            await query.message.reply_text(f"Привіт, {username}! Зайчик, доброе утро - Твоя Віка):")
+         elif username == "ap3lsinus":
+            await query.message.reply_text(f"Привіт, {username}! Я ебучий задрот, насріть мені на грудь (Без негатива):")
+         elif username == "kotan_sheva":
+            await query.message.reply_text(f"Привіт, {username}! Ельфбарчики по 10 евро, пишіть:")
+         elif username == "h3llacious":
+            await query.message.reply_text(f"Привіт, {username}! НЯ, КАвай, Нестор-сан, ващі шлюхи вже заспавнені:")
+        elif username == "Rainf0rd":
+            await query.message.reply_text(f"Привіт, {username}! Rainf0rd - задеанонілі:")
         await query.message.reply_photo(photo=photo_url, reply_markup=create_menu())
     elif query.data == 'choose_week':
         keyboard = [
