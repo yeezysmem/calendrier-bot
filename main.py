@@ -35,36 +35,34 @@ schedules = {
         'url': 'https://imgur.com/a/YaN28Rz',
         'week_number': datetime.now().isocalendar()[1] + 6  # Тиждень 6
     },
-     'week_7': {
+    'week_7': {
         'url': 'https://imgur.com/a/iNY4mOX',
         'week_number': datetime.now().isocalendar()[1] + 7  # Тиждень 7
     },
-     'week_8': {
+    'week_8': {
         'url': 'https://imgur.com/a/rFNDOgi',
         'week_number': datetime.now().isocalendar()[1] + 8  # Тиждень 8
     },
-      'week_9': {
+    'week_9': {
         'url': 'https://imgur.com/a/lBUXqig',
         'week_number': datetime.now().isocalendar()[1] + 9  # Тиждень 8
     },
-      'week_10': {
+    'week_10': {
         'url': 'https://imgur.com/a/94roFmD',
         'week_number': datetime.now().isocalendar()[1] + 10  # Тиждень 8
     },
-     'week_11': {
+    'week_11': {
         'url': 'https://imgur.com/a/gpykloU',
         'week_number': datetime.now().isocalendar()[1] + 11  # Тиждень 8
     },
-     'week_12': {
+    'week_12': {
         'url': 'https://imgur.com/a/uCDDJ4l',
         'week_number': datetime.now().isocalendar()[1] + 12  # Тиждень 8
     },
-     'week_13': {
+    'week_13': {
         'url': 'https://imgur.com/a/mWFnmSv',
         'week_number': datetime.now().isocalendar()[1] + 13  # Тиждень 8
     },
-    
-
     # Додай інші тижні за потреби
 }
 
@@ -77,15 +75,11 @@ def create_menu():
 
 # Функція старту
 async def start(update: Update, context):
-    await update.message.reply_text(f'Вітаю, {username}! Ви використовуєте версію Deanon 0.0.1 Beta', reply_markup=create_menu())
     user = update.message.from_user  # Отримуємо інформацію про користувача
     username = user.username
-    # if username == "zhdanovvvvvv":
-    #     await update.message.reply_text(f"Привіт, {username}! У тебе є спеціальне повідомлення!")
-    # else:
-    #     await update.message.reply_text('Вітаю! Що вас цікавить?', reply_markup=create_menu())
+    await update.message.reply_text(f'Вітаю, {username}! Ви використовуєте версію Deanon 0.0.1 Beta', reply_markup=create_menu())
 
-# Функція для отримання актуального розкладуß
+# Функція для отримання актуального розкладу
 async def get_schedule(update: Update, context):
     photo_url = schedules['this_week']['url']
     await update.message.reply_photo(photo=photo_url, reply_markup=create_menu())
@@ -97,25 +91,25 @@ async def send_schedule(update: Update, context):
     username = user.username
     await query.answer()
 
-  if query.data == 'this_week':
-    photo_url = schedules['this_week']['url']
-    
-    # Перевіряємо username і відправляємо відповідне повідомлення
-    if username == "zhdanovvvvvv":
-        await query.message.reply_text(f"Привіт, {username}! Добрий день пане розробник, я молюся на вас:")
-    elif username == "AkameGaNick":
-        await query.message.reply_text(f"Привіт, {username}! Зайчик, доброе утро - Твоя Віка):")
-    elif username == "ap3lsinus":
-        await query.message.reply_text(f"Привіт, {username}! Я ебучий задрот, насріть мені на грудь (Без негатива):")
-    elif username == "kotan_sheva":
-        await query.message.reply_text(f"Привіт, {username}! Ельфбарчики по 10 евро, пишіть:")
-    elif username == "h3llacious":
-        await query.message.reply_text(f"Привіт, {username}! НЯ, КАвай, Нестор-сан, ващі шлюхи вже заспавнені:")
-    elif username == "Rainf0rd":
-        await query.message.reply_text(f"Привіт, {username}! Rainf0rd - задеанонілі:")
+    if query.data == 'this_week':
+        photo_url = schedules['this_week']['url']
 
-    # Відправляємо фото незалежно від того, який username
-    await query.message.reply_photo(photo=photo_url, reply_markup=create_menu())
+        # Перевіряємо username і відправляємо відповідне повідомлення
+        if username == "zhdanovvvvvv":
+            await query.message.reply_text(f"Привіт, {username}! Добрий день пане розробник, я молюся на вас:")
+        elif username == "AkameGaNick":
+            await query.message.reply_text(f"Привіт, {username}! Зайчик, доброе утро - Твоя Віка):")
+        elif username == "ap3lsinus":
+            await query.message.reply_text(f"Привіт, {username}! Я ебучий задрот, насріть мені на грудь (Без негатива):")
+        elif username == "kotan_sheva":
+            await query.message.reply_text(f"Привіт, {username}! Ельфбарчики по 10 евро, пишіть:")
+        elif username == "h3llacious":
+            await query.message.reply_text(f"Привіт, {username}! НЯ, КАвай, Нестор-сан, ващі шлюхи вже заспавнені:")
+        elif username == "Rainf0rd":
+            await query.message.reply_text(f"Привіт, {username}! Rainf0rd - задеанонілі:")
+
+        # Відправляємо фото незалежно від того, який username
+        await query.message.reply_photo(photo=photo_url, reply_markup=create_menu())
 
     elif query.data == 'choose_week':
         keyboard = [
@@ -133,10 +127,10 @@ async def send_schedule(update: Update, context):
             [InlineKeyboardButton("16/12", callback_data='week_12')],
             [InlineKeyboardButton("23/12 канікули", callback_data='week_13')],
             [InlineKeyboardButton("🔙 Назад до меню", callback_data='start')],
-            # Додай інші тижні за потреби
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("Оберіть тиждень:", reply_markup=reply_markup)
+    
     elif query.data.startswith('week_'):
         week_data = schedules.get(query.data)
         if week_data:
@@ -144,15 +138,9 @@ async def send_schedule(update: Update, context):
             await query.message.reply_photo(photo=photo_url, reply_markup=create_menu())
         else:
             await query.message.reply_text("Цей тиждень недоступний.", reply_markup=create_menu())
+    
     elif query.data == 'start':
         await start(update=query, context=context)  # Використовуємо query.message
-
-# async def set_commands(application):
-#     commands = [
-#         BotCommand(command="start", description="Запустити бота"),
-#         BotCommand(command="get_schedule", description="Отримати поточний розклад"),
-#     ]
-#     await application.bot.set_my_commands(commands)
 
 # Основний блок програми
 if __name__ == '__main__':
@@ -161,14 +149,4 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CallbackQueryHandler(send_schedule))
     application.add_handler(CommandHandler('get_schedule', get_schedule))
-    # application.post_init(set_commands(application))
     application.run_polling()
-
-
-
-
-
-
-
-
-
