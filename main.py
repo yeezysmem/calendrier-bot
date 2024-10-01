@@ -93,14 +93,12 @@ async def send_schedule(update: Update, context):
 
     if query.data == 'this_week':
         photo_url = schedules['this_week']['url']
-
-        # Перевіряємо username і відправляємо відповідне повідомлення
         if username == "zhdanovvvvvv":
             await query.message.reply_text(f"Привіт, {username}! Добрий день пане розробник, я молюся на вас:")
         elif username == "AkameGaNick":
             await query.message.reply_text(f"Привіт, {username}! Зайчик, доброе утро - Твоя Віка):")
         elif username == "ap3lsinus":
-            await query.message.reply_text(f"Привіт, {username}! Я ебучий задрот, насріть мені на грудь (Без негатива):")
+            await query.message.reply_text(f"Привіт, {username}! Головний VIPERR 1337:")
         elif username == "kotan_sheva":
             await query.message.reply_text(f"Привіт, {username}! Ельфбарчики по 10 евро, пишіть:")
         elif username == "h3llacious":
@@ -108,7 +106,6 @@ async def send_schedule(update: Update, context):
         elif username == "Rainf0rd":
             await query.message.reply_text(f"Привіт, {username}! Rainf0rd - задеанонілі:")
 
-        # Відправляємо фото незалежно від того, який username
         await query.message.reply_photo(photo=photo_url, reply_markup=create_menu())
 
     elif query.data == 'choose_week':
