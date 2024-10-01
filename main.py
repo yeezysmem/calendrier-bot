@@ -77,7 +77,7 @@ def create_menu():
 
 # Функція старту
 async def start(update: Update, context):
-    await update.message.reply_text(f'Вітаю, {username}!', reply_markup=create_menu())
+    await update.message.reply_text(f'Вітаю, {username}! Ви використовуєте версію Deanon 0.0.1 Beta', reply_markup=create_menu())
     user = update.message.from_user  # Отримуємо інформацію про користувача
     username = user.username
     # if username == "zhdanovvvvvv":
@@ -97,21 +97,26 @@ async def send_schedule(update: Update, context):
     username = user.username
     await query.answer()
 
-    if query.data == 'this_week':
-        photo_url = schedules['this_week']['url']
-         if username == "zhdanovvvvvv":
-            await query.message.reply_text(f"Привіт, {username}! Добрий день пане розробник, я молюся на вас:")
-         elif username == "AkameGaNick":
-            await query.message.reply_text(f"Привіт, {username}! Зайчик, доброе утро - Твоя Віка):")
-         elif username == "ap3lsinus":
-            await query.message.reply_text(f"Привіт, {username}! Я ебучий задрот, насріть мені на грудь (Без негатива):")
-         elif username == "kotan_sheva":
-            await query.message.reply_text(f"Привіт, {username}! Ельфбарчики по 10 евро, пишіть:")
-         elif username == "h3llacious":
-            await query.message.reply_text(f"Привіт, {username}! НЯ, КАвай, Нестор-сан, ващі шлюхи вже заспавнені:")
-        elif username == "Rainf0rd":
-            await query.message.reply_text(f"Привіт, {username}! Rainf0rd - задеанонілі:")
-        await query.message.reply_photo(photo=photo_url, reply_markup=create_menu())
+  if query.data == 'this_week':
+    photo_url = schedules['this_week']['url']
+    
+    # Перевіряємо username і відправляємо відповідне повідомлення
+    if username == "zhdanovvvvvv":
+        await query.message.reply_text(f"Привіт, {username}! Добрий день пане розробник, я молюся на вас:")
+    elif username == "AkameGaNick":
+        await query.message.reply_text(f"Привіт, {username}! Зайчик, доброе утро - Твоя Віка):")
+    elif username == "ap3lsinus":
+        await query.message.reply_text(f"Привіт, {username}! Я ебучий задрот, насріть мені на грудь (Без негатива):")
+    elif username == "kotan_sheva":
+        await query.message.reply_text(f"Привіт, {username}! Ельфбарчики по 10 евро, пишіть:")
+    elif username == "h3llacious":
+        await query.message.reply_text(f"Привіт, {username}! НЯ, КАвай, Нестор-сан, ващі шлюхи вже заспавнені:")
+    elif username == "Rainf0rd":
+        await query.message.reply_text(f"Привіт, {username}! Rainf0rd - задеанонілі:")
+
+    # Відправляємо фото незалежно від того, який username
+    await query.message.reply_photo(photo=photo_url, reply_markup=create_menu())
+
     elif query.data == 'choose_week':
         keyboard = [
             [InlineKeyboardButton("30/09", callback_data='week_1')],
