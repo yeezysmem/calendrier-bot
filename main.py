@@ -1,7 +1,7 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from datetime import datetime
-from g4f.client import Client
+from g4f import ChatCompletion
 
 # Токен бота
 TOKEN = '7495078009:AAG9m37Qhx5rfC98RLuHLRcBq_IuBc_Ks1Q'
@@ -96,8 +96,12 @@ async def send_anekdot(update: Update, context):
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": "Напиши адекдот використовуючи ці імена - Даня, Костя, Нестор, Діма, Віка(любовниця нікіти), Нікіта"}],
     )
-    anekdot = response.choices[0].message.content
-    await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
+   # Перевіряємо, чи є відповідь і чи містить вона дані
+    if response and response['choices']:
+        anekdot = response['choices'][0]['message']['content']
+        await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
+    else:
+        await query.message.reply_text("Вибачте, анекдот не вдалося отримати.", reply_markup=create_menu())
 
 # Функція відправки розкладу
 async def send_schedule(update: Update, context):
