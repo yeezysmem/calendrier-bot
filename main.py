@@ -100,7 +100,7 @@ async def send_anekdot(update: Update, context):
     )
    # Перевіряємо, чи є відповідь і чи містить вона дані
  
-    anekdot = response.choices[0].message['content']
+     anekdot = response.choices[0].message.content 
     await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
    
 # Функція відправки розкладу
