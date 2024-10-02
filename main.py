@@ -99,12 +99,10 @@ async def send_anekdot(update: Update, context):
         messages=[{"role": "user", "content": "Напиши адекдот використовуючи ці імена - Даня, Костя, Нестор, Діма, Віка(любовниця нікіти), Нікіта"}],
     )
    # Перевіряємо, чи є відповідь і чи містить вона дані
-    if response and response['choices']:
-        anekdot = response['choices'][0]['message']['content']
-        await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
-    else:
-        await query.message.reply_text("Вибачте, анекдот не вдалося отримати.", reply_markup=create_menu())
-
+ 
+    anekdot = response['choices'][0]['message']['content']
+    await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
+   
 # Функція відправки розкладу
 async def send_schedule(update: Update, context):
     query = update.callback_query
