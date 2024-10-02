@@ -92,7 +92,7 @@ async def get_schedule(update: Update, context):
 async def send_anekdot(update: Update, context):
     query = update.callback_query
     await query.answer()
-    
+  
     # Отримуємо анекдот через GPT API
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -100,7 +100,7 @@ async def send_anekdot(update: Update, context):
     )
    # Перевіряємо, чи є відповідь і чи містить вона дані
  
-    anekdot = response['choices'][0]['message']['content']
+    anekdot = response.choices[0].message['content']
     await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
    
 # Функція відправки розкладу
