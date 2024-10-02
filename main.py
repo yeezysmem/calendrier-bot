@@ -1,6 +1,7 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from datetime import datetime
+from g4f.client import Client
 
 # Токен бота
 TOKEN = '7495078009:AAG9m37Qhx5rfC98RLuHLRcBq_IuBc_Ks1Q'
@@ -70,7 +71,8 @@ schedules = {
 def create_menu():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("🗓 Поточний розклад", callback_data='this_week')],
-        [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')]
+        [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')],
+        [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')]
     ])
 
 # Функція старту
@@ -83,6 +85,19 @@ async def start(update: Update, context):
 async def get_schedule(update: Update, context):
     photo_url = schedules['this_week']['url']
     await update.message.reply_photo(photo=photo_url, reply_markup=create_menu())
+
+# Функція для отримання анекдота
+async def send_anekdot(update: Update, context):
+    query = update.callback_query
+    await query.answer()
+    
+    # Отримуємо анекдот через GPT API
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": "Напиши адекдот використовуючи ці імена - Даня, Костя, Нестор, Діма, Віка(любовниця нікіти), Нікіта"}],
+    )
+    anekdot = response.choices[0].message.content
+    await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
 
 # Функція відправки розкладу
 async def send_schedule(update: Update, context):
@@ -127,7 +142,8 @@ async def send_schedule(update: Update, context):
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("Оберіть тиждень:", reply_markup=reply_markup)
-    
+    elif query.data == 'anekdot_day':
+        await send_anekdot(update, context)  #
     elif query.data.startswith('week_'):
         week_data = schedules.get(query.data)
         if week_data:
