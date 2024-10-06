@@ -92,6 +92,8 @@ async def get_schedule(update: Update, context):
 # Функція для отримання анекдота
 async def send_anekdot(update: Update, context):
     query = update.callback_query
+    user = query.from_user  # Отримуємо інформацію про користувача
+    username = user.username
     await query.answer()
     
     # Отримуємо анекдот через GPT API
