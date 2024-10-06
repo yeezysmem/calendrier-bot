@@ -76,6 +76,7 @@ def create_menu():
         [InlineKeyboardButton("🗓 Поточний розклад", callback_data='this_week')],
         [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')],
         [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')],
+        [InlineKeyboardButton("🍑 Рандомний фанфік", callback_data='fanfik_day')],
         [InlineKeyboardButton("⚙️ Написати свій промпт (В наступному оновленні)", callback_data='customize_anekdot')]
     ])
 
@@ -105,6 +106,24 @@ async def send_anekdot(update: Update, context):
    # Перевіряємо, чи є відповідь і чи містить вона дані
     anekdot = response.choices[0].message.content 
     await query.message.reply_text(f"Анекдот для {username}:\n{anekdot}", reply_markup=create_menu())
+
+# Функція для отримання анекдота
+async def send_fanfik(update: Update, context):
+    query = update.callback_query
+    user = query.from_user  # Отримуємо інформацію про користувача
+    username = user.username
+    await query.answer()
+    
+    # Отримуємо анекдот через GPT API
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": "Придумай не великий еротичний фанфік використовуючи одного або кількох персонажів (Нікіта(він гей), Віка(хоче нікіту), Діма(Любить віку). фанфік має бути дуже горячим і обовʼязково закінченним)."}],
+    )
+   # Перевіряємо, чи є відповідь і чи містить вона дані
+    fanfik = response.choices[0].message.content 
+    await query.message.reply_text(f"Фанфік для {username}:\n{fanfik}", reply_markup=create_menu())
+
+
 # Функція для обробки кнопки "Налаштувати анекдот"
 async def customize_anekdot(update: Update, context):
     query = update.callback_query
@@ -172,7 +191,9 @@ async def send_schedule(update: Update, context):
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("Оберіть тиждень:", reply_markup=reply_markup)
     elif query.data == 'anekdot_day':
-        await send_anekdot(update, context)  #
+        await send_anekdot(update, context) 
+    elif query.data == 'fanfik_day':
+        await send_fanfik(update, context)
     elif query.data.startswith('week_'):
         week_data = schedules.get(query.data)
         if week_data:
