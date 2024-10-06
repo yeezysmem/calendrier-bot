@@ -2,16 +2,17 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from datetime import datetime
 from g4f.client import Client
-
-client = Client()
-
+import g4f
+import nest_asyncio
+nest_asyncio.apply()
+# g4f.disable_ssl_verification() 
 # Токен бота
 TOKEN = '7495078009:AAG9m37Qhx5rfC98RLuHLRcBq_IuBc_Ks1Q'
-
-
+ 
+client = Client()
 schedules = {
     'this_week': {
-        'url': 'https://imgur.com/a/IxAjtOc',
+        'url': 'https://imgur.com/a/ZpD9st1',
         'week_number': datetime.now().isocalendar()[1]  # Номер поточного тижня
     },
     'week_1': {
@@ -92,17 +93,19 @@ async def get_schedule(update: Update, context):
 async def send_anekdot(update: Update, context):
     query = update.callback_query
     await query.answer()
-  
+    
     # Отримуємо анекдот через GPT API
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": "Напиши адекдот використовуючи ці імена - Даня, Костя, Нестор, Діма, Віка(любовниця нікіти), Нікіта"}],
+        model="gpt-4",
+        messages=[{"role": "user", "content": "Придумай короткий жарт або анекдот на кожен день, включаючи одного або кількох з таких персонажів: Даня, Віка (яка закохана в Нікіту), Діма, Нікіта, Нестор, і Ананас. Жарт має бути веселим і креативним, але не обов'язково всі персонажі повинні бути в кожному жарті."}],
     )
    # Перевіряємо, чи є відповідь і чи містить вона дані
- 
-    anekdot = response.choices[0].message.content 
-    await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
-   
+    if response and response['choices']:
+        anekdot = response['choices'][0]['message']['content']
+        await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
+    else:
+        await query.message.reply_text("Вибачте, анекдот не вдалося отримати.", reply_markup=create_menu())
+
 # Функція відправки розкладу
 async def send_schedule(update: Update, context):
     query = update.callback_query
