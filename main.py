@@ -76,7 +76,7 @@ def create_menu():
         [InlineKeyboardButton("🗓 Поточний розклад", callback_data='this_week')],
         [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')],
         [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')],
-        [InlineKeyboardButton("⚙️ Написати свій промпт", callback_data='customize_anekdot')]
+        [InlineKeyboardButton("⚙️ Написати свій промпт (В наступному оновленні)", callback_data='customize_anekdot')]
     ])
 
 # Функція старту
@@ -196,7 +196,9 @@ if __name__ == '__main__':
         states={
             ASK_FOR_PROMPT: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_prompt)],
         },
-        fallbacks=[]
+        fallbacks=[],
+        per_message=True
+
     )
     application.add_handler(CommandHandler('get_schedule', get_schedule))
     application.run_polling()
