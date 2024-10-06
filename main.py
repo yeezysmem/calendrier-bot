@@ -190,15 +190,17 @@ if __name__ == '__main__':
 
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CallbackQueryHandler(send_schedule))
+    application.add_handler(CommandHandler('get_schedule', get_schedule))
+
      # Обробник для налаштування анекдота через введений промпт
     conv_handler = ConversationHandler(
         entry_points=[CallbackQueryHandler(customize_anekdot, pattern='customize_anekdot')],
         states={
             ASK_FOR_PROMPT: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_prompt)],
         },
-        fallbacks=[],
-        per_message=True
+        fallbacks=[]
 
     )
-    application.add_handler(CommandHandler('get_schedule', get_schedule))
+
+    application.add_handler(conv_handler)
     application.run_polling()
