@@ -8,7 +8,7 @@ nest_asyncio.apply()
 # g4f.disable_ssl_verification() 
 # Токен бота
 TOKEN = '7495078009:AAG9m37Qhx5rfC98RLuHLRcBq_IuBc_Ks1Q'
- 
+ASK_FOR_PROMPT = range(1)
 client = Client()
 schedules = {
     'this_week': {
@@ -75,7 +75,8 @@ def create_menu():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("🗓 Поточний розклад", callback_data='this_week')],
         [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')],
-        [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')]
+        [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')],
+        [InlineKeyboardButton("⚙️ Написати свій промпт", callback_data='customize_anekdot')]
     ])
 
 # Функція старту
@@ -99,12 +100,34 @@ async def send_anekdot(update: Update, context):
     # Отримуємо анекдот через GPT API
     response = client.chat.completions.create(
         model="gpt-4",
-        messages=[{"role": "user", "content": "Придумай короткий жарт або анекдот, включаючи одного або кількох з таких персонажів: Даня, Віка (яка закохана в Нікіту), Діма, Нікіта, Нестор, і Ананас(його звати Анас він араб). Жарт має бути веселим і креативним, але не обов'язково всі персонажі повинні бути в кожному жарті, стеж за тим щоб жарт був завершеним."}],
+        messages=[{"role": "user", "content": "Придумай короткий жарт або анекдот на кожен день, включаючи одного або кількох з таких персонажів: Даня, Віка (яка закохана в Нікіту), Діма, Нікіта, Нестор, і Ананас. Жарт має бути веселим і креативним, але не обов'язково всі персонажі повинні бути в кожному жарті."}],
     )
    # Перевіряємо, чи є відповідь і чи містить вона дані
     anekdot = response.choices[0].message.content 
     await query.message.reply_text(f"Анекдот для {username}:\n{anekdot}", reply_markup=create_menu())
+# Функція для обробки кнопки "Налаштувати анекдот"
+async def customize_anekdot(update: Update, context):
+    query = update.callback_query
+    await query.answer()
+    await query.message.reply_text("Введіть свій запит для анекдота:")
+    
+    return ASK_FOR_PROMPT 
 
+# Обробка введеного користувачем промпту
+async def receive_prompt(update: Update, context):
+    user = update.message.from_user
+    prompt = update.message.text
+    
+    # Використовуємо введений промпт для створення анекдота
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}],
+    )
+    
+    anekdot = response.choices[0].message.content
+    await update.message.reply_text(f"Ваш анекдот:\n{anekdot}", reply_markup=create_menu())
+    
+    return ConversationHandler.END  # Завершуємо діалог
 # Функція відправки розкладу
 async def send_schedule(update: Update, context):
     query = update.callback_query
@@ -167,5 +190,13 @@ if __name__ == '__main__':
 
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CallbackQueryHandler(send_schedule))
+     # Обробник для налаштування анекдота через введений промпт
+    conv_handler = ConversationHandler(
+        entry_points=[CallbackQueryHandler(customize_anekdot, pattern='customize_anekdot')],
+        states={
+            ASK_FOR_PROMPT: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_prompt)],
+        },
+        fallbacks=[]
+    )
     application.add_handler(CommandHandler('get_schedule', get_schedule))
     application.run_polling()
