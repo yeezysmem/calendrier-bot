@@ -212,7 +212,8 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CallbackQueryHandler(send_schedule))
     application.add_handler(CommandHandler('get_schedule', get_schedule))
-
+    application.add_handler(CommandHandler('send_anekdot',send_anekdot))
+    application.add_handler(CommandHandler('send_fanfik',send_fanfik))
      # Обробник для налаштування анекдота через введений промпт
     # conv_handler = ConversationHandler(
     # entry_points=[CommandHandler('start', start)],
