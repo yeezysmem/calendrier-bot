@@ -193,19 +193,19 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('get_schedule', get_schedule))
 
      # Обробник для налаштування анекдота через введений промпт
-    conv_handler = ConversationHandler(
-    entry_points=[CommandHandler('start', start)],
-    states={
-        CHOOSING: [
-            MessageHandler(Filters.text & ~Filters.command, choice),
-            CallbackQueryHandler(choice_callback)
-        ],
-    },
-    fallbacks=[CommandHandler('cancel', cancel)],
-    per_message=True 
-    )
+    # conv_handler = ConversationHandler(
+    # entry_points=[CommandHandler('start', start)],
+    # states={
+    #     CHOOSING: [
+    #         MessageHandler(Filters.text & ~Filters.command, choice),
+    #         CallbackQueryHandler(choice_callback)
+    #     ],
+    # },
+    # fallbacks=[CommandHandler('cancel', cancel)],
+    # per_message=True 
+    # )
 
 
 
-    application.add_handler(conv_handler)
+    # application.add_handler(conv_handler)
     application.run_polling()
