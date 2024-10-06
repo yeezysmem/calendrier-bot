@@ -194,13 +194,17 @@ if __name__ == '__main__':
 
      # Обробник для налаштування анекдота через введений промпт
     conv_handler = ConversationHandler(
-        entry_points=[CallbackQueryHandler(customize_anekdot, pattern='customize_anekdot')],
-        states={
-            ASK_FOR_PROMPT: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_prompt)],
-        },
-        fallbacks=[]
+    entry_points=[CommandHandler('start', start)],
+    states={
+        CHOOSING: [
+            MessageHandler(Filters.text & ~Filters.command, choice),
+            CallbackQueryHandler(choice_callback)
+        ],
+    },
+    fallbacks=[CommandHandler('cancel', cancel)],
+    per_message=True  # This is the setting you need)
 
-    )
+
 
     application.add_handler(conv_handler)
     application.run_polling()
