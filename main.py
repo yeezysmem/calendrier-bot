@@ -82,7 +82,7 @@ def create_menu():
 async def start(update: Update, context):
     user = update.message.from_user  # Отримуємо інформацію про користувача
     username = user.username
-    await update.message.reply_text(f'Вітаю, {username}! Ви використовуєте версію Deanon 0.0.1 Beta', reply_markup=create_menu())
+    await update.message.reply_text(f'Вітаю, {username}! Ви використовуєте версію AnekdotGPT4 0.2', reply_markup=create_menu())
 
 # Функція для отримання актуального розкладу
 async def get_schedule(update: Update, context):
@@ -100,11 +100,8 @@ async def send_anekdot(update: Update, context):
         messages=[{"role": "user", "content": "Придумай короткий жарт або анекдот на кожен день, включаючи одного або кількох з таких персонажів: Даня, Віка (яка закохана в Нікіту), Діма, Нікіта, Нестор, і Ананас. Жарт має бути веселим і креативним, але не обов'язково всі персонажі повинні бути в кожному жарті."}],
     )
    # Перевіряємо, чи є відповідь і чи містить вона дані
-    if response and response['choices']:
-        anekdot = response['choices'][0]['message']['content']
-        await query.message.reply_text(f"Анекдот дня:\n{anekdot}", reply_markup=create_menu())
-    else:
-        await query.message.reply_text("Вибачте, анекдот не вдалося отримати.", reply_markup=create_menu())
+    anekdot = response.choices[0].message.content 
+    await query.message.reply_text(f"Анекдот для {username}:\n{anekdot}", reply_markup=create_menu())
 
 # Функція відправки розкладу
 async def send_schedule(update: Update, context):
