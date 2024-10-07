@@ -77,7 +77,7 @@ def create_menu():
         [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')],
         [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')],
         [InlineKeyboardButton("🍑 Тегнути Нікіту", callback_data='fanfik_day')],
-        [InlineKeyboardButton("🧛 Тегнути Нестора", callback_data='send_polska')],
+        [InlineKeyboardButton("🧛 Тегнути Нестора", callback_data='polska_day')],
         [InlineKeyboardButton("⚙️ Написати свій промпт (В наступному оновленні)", callback_data='customize_anekdot')]
     ])
 
@@ -208,6 +208,8 @@ async def send_schedule(update: Update, context):
         await send_anekdot(update, context) 
     elif query.data == 'fanfik_day':
         await send_fanfik(update, context)
+    elif query.data == 'polska_day':
+        await send_polska(update, context)
     elif query.data.startswith('week_'):
         week_data = schedules.get(query.data)
         if week_data:
