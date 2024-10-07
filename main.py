@@ -76,7 +76,7 @@ def create_menu():
         [InlineKeyboardButton("🗓 Поточний розклад", callback_data='this_week')],
         [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')],
         [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')],
-        [InlineKeyboardButton("🍑 Рандомний фанфік", callback_data='fanfik_day')],
+        [InlineKeyboardButton("🍑 Тегнути Нікіту", callback_data='fanfik_day')],
         [InlineKeyboardButton("⚙️ Написати свій промпт (В наступному оновленні)", callback_data='customize_anekdot')]
     ])
 
@@ -121,7 +121,7 @@ async def send_fanfik(update: Update, context):
     )
    # Перевіряємо, чи є відповідь і чи містить вона дані
     fanfik = response.choices[0].message.content 
-    await query.message.reply_text(f"Фанфік для {username}:\n{fanfik}", reply_markup=create_menu())
+    await query.message.reply_text(f"Фанфік для @AkameGaNick :\n{fanfik}", reply_markup=create_menu())
 
 
 # Функція для обробки кнопки "Налаштувати анекдот"
