@@ -77,6 +77,7 @@ def create_menu():
         [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')],
         [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')],
         [InlineKeyboardButton("🍑 Тегнути Нікіту", callback_data='fanfik_day')],
+        [InlineKeyboardButton("🧛 Тегнути Нестора", callback_data='send_polska')],
         [InlineKeyboardButton("⚙️ Написати свій промпт (В наступному оновленні)", callback_data='customize_anekdot')]
     ])
 
@@ -117,13 +118,26 @@ async def send_fanfik(update: Update, context):
     # Отримуємо анекдот через GPT API
     response = client.chat.completions.create(
         model="gpt-4",
-        messages=[{"role": "user", "content": "Нікіта захворів, напиши йому приємних слів щоб він одужав і побажай чогось."}],
+        messages=[{"role": "user", "content": "Нікіта захворів на рак ануса, напиши йому приємних слів щоб він одужав і побажай чогось від лиця анімешніци."}],
     )
    # Перевіряємо, чи є відповідь і чи містить вона дані
     fanfik = response.choices[0].message.content 
     await query.message.reply_text(f"Фанфік для @AkameGaNick :\n{fanfik}", reply_markup=create_menu())
 
-
+async def send_polska(update: Update, context):
+    query = update.callback_query
+    user = query.from_user  # Отримуємо інформацію про користувача
+    username = user.username
+    await query.answer()
+    
+    # Отримуємо анекдот через GPT API
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": "Napisz Nestorowi coś miłego po polsku."}],
+    )
+   # Перевіряємо, чи є відповідь і чи містить вона дані
+    polska = response.choices[0].message.content 
+    await query.message.reply_text(f"цитата для @h3llacious :\n{polska}", reply_markup=create_menu())
 # Функція для обробки кнопки "Налаштувати анекдот"
 async def customize_anekdot(update: Update, context):
     query = update.callback_query
