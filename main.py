@@ -12,7 +12,7 @@ ASK_FOR_PROMPT = range(1)
 client = Client()
 schedules = {
     'this_week': {
-        'url': 'https://imgur.com/a/VK7W86P',
+        'url': 'https://imgur.com/a/dME6W0r',
         'week_number': datetime.now().isocalendar()[1]  # Номер поточного тижня
     },
     'week_1': {
