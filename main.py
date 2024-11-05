@@ -12,7 +12,7 @@ ASK_FOR_PROMPT = range(1)
 client = Client()
 schedules = {
     'this_week': {
-        'url': 'https://imgur.com/a/dME6W0r',
+        'url': 'https://imgur.com/a/1yM6Xql',
         'week_number': datetime.now().isocalendar()[1]  # Номер поточного тижня
     },
     'week_1': {
@@ -74,11 +74,6 @@ schedules = {
 def create_menu():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("🗓 Поточний розклад", callback_data='this_week')],
-        [InlineKeyboardButton("📅 Обрати інший тиждень", callback_data='choose_week')],
-        [InlineKeyboardButton("🤣 Анекдот дня", callback_data='anekdot_day')],
-        [InlineKeyboardButton("🍑 Тегнути Нікіту", callback_data='fanfik_day')],
-        [InlineKeyboardButton("🧛 Тегнути Нестора", callback_data='polska_day')],
-        [InlineKeyboardButton("⚙️ Написати свій промпт (В наступному оновленні)", callback_data='customize_anekdot')]
     ])
 
 # Функція старту
