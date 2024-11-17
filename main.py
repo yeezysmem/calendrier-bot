@@ -31,7 +31,10 @@ def create_menu():
 async def start(update: Update, context):
     user = update.message.from_user  # Отримуємо інформацію про користувача
     username = user.username
-    await update.message.reply_text(reply_markup=create_menu())
+    await update.message.reply_text(
+        text="Оберіть одну з опцій нижче:",  # Add a welcome message
+        reply_markup=create_menu()
+    )
 
 # Функція для отримання актуального розкладу
 async def get_schedule(update: Update, context):
