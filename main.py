@@ -12,10 +12,10 @@ ASK_FOR_PROMPT = range(1)
 client = Client()
 schedules = {
     'this_week': {
-        'url': 'https://imgur.com/a/Zw4O1Hw',
+        'url': 'https://imgur.com/a/7vWOosw',
     },
     'next_week': {
-        'url': 'https://imgur.com/a/PkSZfkc',
+        'url': 'https://imgur.com/a/sPFpRNu',
     },
     # Додай інші тижні за потреби
 }
